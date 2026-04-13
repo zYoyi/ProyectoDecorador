@@ -24,7 +24,7 @@ Patrones de Diseño
 <br>
 
 **TÍTULO ACTIVIDAD:**  
-Actividad Bridge
+Proyecto Unidad 3 Decorator
 
 <br>
 
