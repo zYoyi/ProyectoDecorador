@@ -76,9 +76,6 @@ export default function Footer() {
           <p className="text-xs text-stone-600">
             © {new Date().getFullYear()} Aurum Grand Hotel. Todos los derechos reservados.
           </p>
-          <p className="text-xs text-stone-700">
-            Desarrollado con patrón Decorator — NestJS + React
-          </p>
         </div>
       </div>
     </footer>
