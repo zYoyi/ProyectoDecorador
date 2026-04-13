@@ -155,9 +155,6 @@ export default function PersonalizarHabitacion() {
               <h2 className="font-serif text-2xl text-stone-900 mb-1">
                 2. Agrega servicios extras
               </h2>
-              <p className="text-stone-400 text-sm mb-5">
-                Cada servicio aplica el patrón Decorator sobre tu habitación base.
-              </p>
               <SelectorExtras
                 extras={extras}
                 seleccionados={selectedExtras}
