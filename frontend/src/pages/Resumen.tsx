@@ -99,7 +99,7 @@ export default function Resumen() {
 
             {/* Descripción del Decorator */}
             <div className="bg-stone-50 border border-stone-100 p-5">
-              <p className="section-label mb-2">Descripción generada por Decorator</p>
+              <p className="section-label mb-2">Descripción</p>
               <p className="font-serif text-lg text-stone-700 italic leading-relaxed">
                 "{cotizacion.descripcion}"
               </p>
