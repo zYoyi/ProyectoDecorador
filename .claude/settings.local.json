@@ -1,0 +1,8 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(taskkill //F //IM git.exe)",
+      "Bash(del \"C:\\\\Users\\\\jordy\\\\OneDrive\\\\Desktop\\\\patrondecorator\\\\.git\\\\index.lock\")"
+    ]
+  }
+}
