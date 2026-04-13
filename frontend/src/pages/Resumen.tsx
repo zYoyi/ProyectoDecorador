@@ -103,10 +103,6 @@ export default function Resumen() {
               <p className="font-serif text-lg text-stone-700 italic leading-relaxed">
                 "{cotizacion.descripcion}"
               </p>
-              <p className="text-xs text-stone-400 mt-3">
-                Esta cadena de texto es el resultado de aplicar cada decorador en secuencia
-                sobre la habitación base, sin modificar ninguna clase existente.
-              </p>
             </div>
 
             {/* Total */}
