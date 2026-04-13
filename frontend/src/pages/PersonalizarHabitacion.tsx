@@ -184,14 +184,6 @@ export default function PersonalizarHabitacion() {
                 Ver resumen completo →
               </button>
 
-              {/* Nota del patrón */}
-              <div className="bg-white border border-stone-100 p-4">
-                <p className="text-xs text-stone-400 leading-relaxed">
-                  <span className="font-medium text-stone-600">Patrón Decorator:</span> El backend
-                  envuelve la habitación base con cada extra seleccionado, acumulando costo y
-                  descripción sin modificar las clases base.
-                </p>
-              </div>
             </div>
           </div>
         </div>
