@@ -345,3 +345,4 @@ El patrón Decorator está correctamente implementado porque:
 ## Autor
 
 Jordi Ortega — Proyecto académico · Patrón de diseño Decorator
+
