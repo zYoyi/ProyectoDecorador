@@ -1,4 +1,11 @@
-import type { CotizarRequest, CotizarResponse, Extra, Habitacion } from '../types/hotel';
+import type {
+  CotizarRequest,
+  CotizarResponse,
+  EnviarReciboRequest,
+  EnviarReciboResponse,
+  Extra,
+  Habitacion,
+} from '../types/hotel';
 
 const API_URL = import.meta.env.VITE_API_URL || 'http://localhost:3000';
 
@@ -23,6 +30,13 @@ export const hotelApi = {
 
   cotizar: (data: CotizarRequest): Promise<CotizarResponse> =>
     request('/hotel/cotizar', {
+      method: 'POST',
+      body: JSON.stringify(data),
+    }),
+
+  /** Patrón Bridge: envía el recibo (generado por PDFReciboRenderer) por correo */
+  enviarRecibo: (data: EnviarReciboRequest): Promise<EnviarReciboResponse> =>
+    request('/hotel/enviar-recibo', {
       method: 'POST',
       body: JSON.stringify(data),
     }),

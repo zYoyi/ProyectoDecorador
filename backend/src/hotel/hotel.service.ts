@@ -1,4 +1,5 @@
-import { Injectable, BadRequestException } from '@nestjs/common';
+import { Injectable, BadRequestException, InternalServerErrorException } from '@nestjs/common';
+import * as nodemailer from 'nodemailer';
 import { HabitacionComponent } from './componentes/habitacion.component';
 import { HabitacionEstandar } from './componentes/habitacion-estandar';
 import { HabitacionDeluxe } from './componentes/habitacion-deluxe';
@@ -8,6 +9,7 @@ import { WifiPremiumDecorator } from './decoradores/wifi-premium.decorator';
 import { VistaMarDecorator } from './decoradores/vista-mar.decorator';
 import { JacuzziDecorator } from './decoradores/jacuzzi.decorator';
 import { CotizarHabitacionDto, TipoExtra, TipoHabitacion } from './dto/cotizar-habitacion.dto';
+import { EnviarReciboDto } from './dto/enviar-recibo.dto';
 
 @Injectable()
 export class HotelService {
@@ -123,6 +125,65 @@ export class HotelService {
         return new Suite();
       default:
         throw new BadRequestException(`Tipo de habitación no reconocido: ${tipo}`);
+    }
+  }
+
+  /**
+   * PATRÓN BRIDGE — Endpoint de entrega por correo
+   *
+   * Recibe el HTML ya generado por el Implementador (PDFReciboRenderer)
+   * del frontend y lo envía como cuerpo del correo electrónico.
+   *
+   * Si SMTP_HOST está definido en .env se usa ese servidor; de lo contrario
+   * se crea automáticamente una cuenta de prueba en Ethereal para demos,
+   * devolviendo una URL de vista previa en la respuesta.
+   */
+  async enviarRecibo(dto: EnviarReciboDto) {
+    let transporter: nodemailer.Transporter;
+    let previewUrl: string | undefined;
+
+    if (process.env.SMTP_HOST) {
+      // Servidor SMTP real configurado en .env
+      transporter = nodemailer.createTransport({
+        host: process.env.SMTP_HOST,
+        port: parseInt(process.env.SMTP_PORT ?? '587', 10),
+        secure: process.env.SMTP_SECURE === 'true',
+        auth: {
+          user: process.env.SMTP_USER,
+          pass: process.env.SMTP_PASS,
+        },
+      });
+    } else {
+      // Sin configuración SMTP → cuenta de prueba Ethereal (ideal para demos)
+      const testAccount = await nodemailer.createTestAccount();
+      transporter = nodemailer.createTransport({
+        host: 'smtp.ethereal.email',
+        port: 587,
+        secure: false,
+        auth: { user: testAccount.user, pass: testAccount.pass },
+      });
+    }
+
+    try {
+      const info = await transporter.sendMail({
+        from: `"Aurum Grand Hotel" <${process.env.SMTP_FROM ?? 'noreply@aurumhotel.mx'}>`,
+        to: dto.email,
+        subject: `Confirmación de reserva ${dto.numeroReserva} — Aurum Grand Hotel ($${dto.costoTotal.toLocaleString('es-MX')} MXN/noche)`,
+        html: dto.htmlBody,
+      });
+
+      if (!process.env.SMTP_HOST) {
+        previewUrl = nodemailer.getTestMessageUrl(info) || undefined;
+      }
+
+      return {
+        ok: true,
+        mensaje: `Recibo enviado a ${dto.email}`,
+        previewUrl,
+      };
+    } catch (err: unknown) {
+      const msg = err instanceof Error ? err.message : 'Error desconocido';
+      throw new InternalServerErrorException(`No se pudo enviar el correo: ${msg}`);
     }
   }
 

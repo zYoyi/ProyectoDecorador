@@ -32,3 +32,23 @@ export interface EstadoReserva {
   extrasSeleccionados: Extra[];
   cotizacion: CotizarResponse | null;
 }
+
+// ── Patrón Bridge: envío de recibo ──────────────────────────────────────────
+
+export interface EnviarReciboRequest {
+  /** Dirección de correo destino */
+  email: string;
+  /** HTML completo generado por el ReciboRenderer (PDFReciboRenderer) */
+  htmlBody: string;
+  /** Número de reserva para el asunto del correo */
+  numeroReserva: string;
+  /** Costo total para el asunto del correo */
+  costoTotal: number;
+}
+
+export interface EnviarReciboResponse {
+  ok: boolean;
+  mensaje: string;
+  /** URL de vista previa Ethereal (solo en modo demo sin SMTP real) */
+  previewUrl?: string;
+}

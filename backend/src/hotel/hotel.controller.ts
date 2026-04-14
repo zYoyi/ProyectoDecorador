@@ -1,4 +1,5 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
+import { EnviarReciboDto } from './dto/enviar-recibo.dto';
 import { HotelService } from './hotel.service';
 import { CotizarHabitacionDto } from './dto/cotizar-habitacion.dto';
 
@@ -27,5 +28,19 @@ export class HotelController {
   @Post('cotizar')
   cotizar(@Body() dto: CotizarHabitacionDto) {
     return this.hotelService.cotizar(dto);
+  }
+
+  /**
+   * POST /hotel/enviar-recibo — entrega del recibo con patrón Bridge
+   *
+   * Body: { email, htmlBody, numeroReserva, costoTotal }
+   * Response: { ok, mensaje, previewUrl? }
+   *
+   * El htmlBody es generado en el frontend por PDFReciboRenderer (Implementador).
+   * El backend solo actúa como transportista de correo.
+   */
+  @Post('enviar-recibo')
+  enviarRecibo(@Body() dto: EnviarReciboDto) {
+    return this.hotelService.enviarRecibo(dto);
   }
 }
