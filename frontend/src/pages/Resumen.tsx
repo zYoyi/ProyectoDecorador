@@ -381,12 +381,12 @@ export default function Resumen() {
                 )}
 
                 {/* Nota técnica del patrón Bridge */}
-                <p className="text-[11px] text-stone-400 leading-relaxed pt-1">
-                  <span className="font-medium text-stone-500">Patrón Bridge:</span>{' '}
-                  {modoEntrega === 'imprimir'
-                    ? 'ImprimirEntrega usa PDFReciboRenderer para generar el HTML y abre el diálogo de impresión del navegador.'
-                    : 'CorreoEntrega usa el mismo PDFReciboRenderer para generar el HTML y lo envía al servidor, que lo despacha por SMTP.'}
-                </p>
+                {modoEntrega === 'imprimir' && (
+                  <p className="text-[11px] text-stone-400 leading-relaxed pt-1">
+                    <span className="font-medium text-stone-500">Patrón Bridge:</span>{' '}
+                    ImprimirEntrega usa PDFReciboRenderer para generar el HTML y abre el diálogo de impresión del navegador.
+                  </p>
+                )}
               </div>
             )}
           </div>
